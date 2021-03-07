@@ -1,0 +1,60 @@
+<html>
+    <body>
+        <h1>Etch-a-Sketch!</h1>
+        <button id= "reset">Erase the Board</button>
+        <div id="container">
+        </div>
+    </body>
+    <script>
+        const container = document.getElementById("container");
+        
+        function makeRows(rows, cols) {
+        container.style.setProperty('--grid-rows', rows);
+        container.style.setProperty('--grid-cols', cols);
+        
+        //creates cells in grid
+        for (i = 0; i < (rows * cols); i++) {
+            let cell = document.createElement("div");
+            container.appendChild(cell).className = "grid-item";
+            cell.addEventListener("mouseover", function (e){
+                e.target.style.backgroundColor = Math.floor(Math.random()*16777215).toString(16);
+
+            const btn = document.getElementById("reset");
+            btn.addEventListener("click", resetColor);
+
+            function resetColor(){
+            cell.style.backgroundColor = "white";
+            }
+            });
+        };
+        };
+
+        makeRows(16, 16);
+
+    </script>
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        :root {
+        --grid-cols: 1;
+        --grid-rows: 1;
+        }
+
+        #container {
+        display: grid;
+        grid-gap: 1em;
+        grid-template-rows: repeat(var(--grid-rows), 1fr);
+        grid-template-columns: repeat(var(--grid-cols), 1fr);
+        }
+
+        .grid-item {
+        padding: 1em;
+        border: 1px solid #ccc;
+        text-align: center;
+        }
+
+        
+    </style>
+</html>
