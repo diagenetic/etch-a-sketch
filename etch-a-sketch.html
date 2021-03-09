@@ -1,40 +1,67 @@
 <html>
     <body>
         <h1>Etch-a-Sketch!</h1>
-        <button id= "reset">Erase the Board</button>
+        <button id= "reset">Change Size</button>
         <div id="container">
         </div>
     </body>
     <script>
         const container = document.getElementById("container");
+        const btn = document.getElementById("reset");
         
-        function makeRows(rows, cols) {
-        container.style.setProperty('--grid-rows', rows);
-        container.style.setProperty('--grid-cols', cols);
+        makeGrid(16);
+
+        btn.addEventListener("click", resetGrid);
+
+        //creates grid
+        function makeGrid(size) {
+        container.style.setProperty('--grid-rows', size);
+        container.style.setProperty('--grid-cols', size);
         
         //creates cells in grid
-        for (i = 0; i < (rows * cols); i++) {
-            let cell = document.createElement("div");
+        for (i = 0; i < (size * size); i++) {
+            let cell = document.createElement("div");   
             container.appendChild(cell).className = "grid-item";
             cell.addEventListener("mouseover", function (e){
                 e.target.style.backgroundColor = Math.floor(Math.random()*16777215).toString(16);
-
-            const btn = document.getElementById("reset");
-            btn.addEventListener("click", resetColor);
-
-            function resetColor(){
-            cell.style.backgroundColor = "white";
-            }
             });
+        
+            btn.addEventListener("click", function (e){
+                cell.style.backgroundColor = "white";
+            })
         };
         };
 
-        makeRows(16, 16);
+        function clearGrid(){
+            container.innerHTML = "";
+        }
 
+        function resetGrid(){
+            let answer = prompt("Choose your grid size.");
+                if (answer < 1 || answer > 64){
+                    alert("Please choose a number between 1-64.");
+                    resetGrid();
+                }
+            clearGrid();
+            makeGrid(answer);
+            }
+        //make grid
+        //when size is changed, clear grid
+        //make new grid 
     </script>
     <style>
         h1 {
             text-align: center;
+            font-size: 50px;
+            font-family: sans-serif;
+            padding-top: 30px;
+        }
+
+        button {
+            display: block;
+            margin: auto;
+            position: relative;
+            
         }
 
         :root {
@@ -44,15 +71,18 @@
 
         #container {
         display: grid;
-        grid-gap: 1em;
+        width: 500px;
+        height: 500px;
+        margin: auto;
         grid-template-rows: repeat(var(--grid-rows), 1fr);
         grid-template-columns: repeat(var(--grid-cols), 1fr);
+        justify-content: center;
+        padding-top: 50px;
         }
 
         .grid-item {
-        padding: 1em;
         border: 1px solid #ccc;
-        text-align: center;
+        align-items: center;
         }
 
         
